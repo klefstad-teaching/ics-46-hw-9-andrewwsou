@@ -84,6 +84,13 @@ void load_words(set<string> & word_list, const string& file_name) {
     in.close();
 }
 
-void print_word_ladder(const vector<string>& ladder);
+void print_word_ladder(const vector<string>& ladder) {
+    if (!ladder.empty()) {
+        for (size_t i = 0; i < ladder.size(); ++i) {
+            cout << ladder[i] << endl;
+        }
+    }
+    return;
+}
 
 void verify_word_ladder();
