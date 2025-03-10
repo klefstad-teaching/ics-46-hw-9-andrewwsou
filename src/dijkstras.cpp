@@ -8,8 +8,8 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
     vector<int> distances(num_vertices, INF);
     vector<bool> visited(num_vertices, false);
     distances[source] = 0;
-    previous.resize(num_vertices, -1);
 
+    previous.resize(num_vertices, -1); 
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap;
     minHeap.push({0, source});
 
