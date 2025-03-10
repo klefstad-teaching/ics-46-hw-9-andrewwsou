@@ -4,7 +4,7 @@ using namespace std;
 
 
 void error(string word1, string word2, string msg) {
-    cout << "Error: " << msg << word1 << word2 << endl;
+    cout << "Error: " << msg << word1 << "and " << word2 << endl;
 }
 
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
@@ -12,9 +12,16 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
 }
 
 
-bool is_adjacent(const string& word1, const string& word2);
+bool is_adjacent(const string& word1, const string& word2) {
+
+}
 
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
+    if (begin_word == end_word) {
+        error(begin_word, end_word, "Invalid input, words are the same:");
+        return;
+    }
+
     queue<vector<string>> ladder_queue;
     ladder_queue.push({begin_word});
     set<string> visited;
