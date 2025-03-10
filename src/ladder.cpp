@@ -14,30 +14,33 @@ bool edit_distance_within(const string& str1, const string& str2, int d) {
     int len1 = str1.length();
     int len2 = str2.length();
 
-    if (abs(len1 - len2) > 1) {
+    if (abs(len1 - len2) > d) {
         return false;
     }
 
-    vector<vector<int>> dp(len1 + 1, vector<int>(len2 + 1, 0));
-    
-    for (int i = 1; i <= len1; ++i) {
-        dp[i][0] = i;
-    }
-    for (int j = 1; j <= len2; ++j) {
-        dp[0][j] = j;
-    }
-    int sub_cost;
-    for (int i = 1; i <= len1; ++i) {
-        for (int j = 1; j <= len2; ++j) {
-            if (str1[i-1] == str2[j-1]) {
-                sub_cost = 0;
+    int count = 0;
+    int i = 0, j = 0;
+    while (i < len1 && j < len2) {
+        if (str1[i] != str2[j]) {
+            if (count == d) { return false; }
+
+            if (len1 > len2) {
+                ++i;
+            } else if (len2 > len1) {
+                ++j;
             } else {
-                sub_cost = 1;
+                ++i;
+                ++j;
             }
-            dp[i][j] = min(dp[i-1][j] + 1, min(dp[i][j-1] + 1, dp[i-1][j-1] + sub_cost));
-        }  
+            ++count;
+        } else {
+            ++i;
+            ++j;  
+        }
     }
-    return dp[len1][len2] == d;
+    if (i < len1 || j < len2)
+        count++;
+    return count <= d;
 }
 
 
