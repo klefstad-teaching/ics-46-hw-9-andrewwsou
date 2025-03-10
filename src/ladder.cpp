@@ -7,8 +7,34 @@ void error(string word1, string word2, string msg) {
     cout << "Error: " << msg << word1 << "and " << word2 << endl;
 }
 
-bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
+bool edit_distance_within(const string& str1, const string& str2, int d) {
+    int len1 = str1.length();
+    int len2 = str2.length();
 
+    if (abs(len1 - len2) > 1) {
+        return false;
+    }
+
+    vector<vector<int>> dp(len1 + 1, vector<int>(len2 + 1, 0));
+    
+    for (int i = 1; i <= len1; ++i) {
+        dp[i][0] = i;
+    }
+    for (int j = 1; j <= len2; ++j) {
+        dp[0][j] = j;
+    }
+
+    for (int i = 1; i <= len1; ++i) {
+        for (int j = 1; j <= len2; ++j) {
+            if (str1[i] == str1[j]) {
+                int sub_cost = 0;
+            } else {
+                int sub_cost = 1;
+            }
+            dp[i][j] = min(dp[i-1][j] + 1, dp[i][j-1] + 1, dp[i-1][j-1] + sub_cost);
+        }  
+    }
+    return dp[len1][len2] <= d;
 }
 
 
