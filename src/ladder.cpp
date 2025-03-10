@@ -24,18 +24,18 @@ bool edit_distance_within(const string& str1, const string& str2, int d) {
     for (int j = 1; j <= len2; ++j) {
         dp[0][j] = j;
     }
-
+    int sub_cost;
     for (int i = 1; i <= len1; ++i) {
         for (int j = 1; j <= len2; ++j) {
-            if (str1[i] == str1[j]) {
-                int sub_cost = 0;
+            if (str1[i-1] == str2[j-1]) {
+                sub_cost = 0;
             } else {
-                int sub_cost = 1;
+                sub_cost = 1;
             }
-            dp[i][j] = min(dp[i-1][j] + 1, dp[i][j-1] + 1, dp[i-1][j-1] + sub_cost);
+            dp[i][j] = min(dp[i-1][j] + 1, min(dp[i][j-1] + 1, dp[i-1][j-1] + sub_cost));
         }  
     }
-    return dp[len1][len2] <= d;
+    return dp[len1][len2] == d;
 }
 
 
@@ -46,7 +46,7 @@ bool is_adjacent(const string& word1, const string& word2) {
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
     if (begin_word == end_word) {
         error(begin_word, end_word, "Invalid input, words are the same:");
-        return;
+        return {};
     }
 
     queue<vector<string>> ladder_queue;
@@ -54,13 +54,13 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
     set<string> visited;
     visited.insert(begin_word);
 
-    while (!ladder_queue.empty()):
+    while (!ladder_queue.empty()) {
         vector<string> ladder = ladder_queue.front();
         ladder_queue.pop();
         string last_word = ladder.back();
 
-        for (string& word : word_list):
-            if is_adjacent(last_word, word) {
+        for (const string& word : word_list) {
+            if (is_adjacent(last_word, word)) {
                 if (visited.find(word) == visited.end()) {
                     visited.insert(word);
                     vector<string> new_ladder = ladder;
@@ -72,11 +72,14 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
                     ladder_queue.push(new_ladder);
                 }
             }
+        }
+    }
     return {};
 }
 
 void load_words(set<string> & word_list, const string& file_name) {
     ifstream in(file_name);
+
     string word;
     while (in >> word) {
         word_list.insert(word);
