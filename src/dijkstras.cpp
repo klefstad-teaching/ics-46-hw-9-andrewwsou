@@ -8,7 +8,7 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
     vector<int> distances(num_vertices, INF);
     vector<bool> visited(num_vertices, false);
     distances[source] = 0;
-    previous[source] = -1;
+    previous.resize(num_vertices, -1);
 
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap;
     minHeap.push({0, source});
@@ -42,7 +42,7 @@ vector<int> extract_shortest_path(const vector<int>& distances, const vector<int
         path_backwards.push_back(i);
     }
     if (!path_backwards.empty()) {
-        for (int j = 0; j < path_backwards.size(); ++j) {
+        for (int j = path_backwards.size() - 1; j >= 0; --j) {
             path.push_back(path_backwards[j]);
         }    
     }
@@ -50,16 +50,16 @@ vector<int> extract_shortest_path(const vector<int>& distances, const vector<int
 }
 
 void print_path(const vector<int>& v, int total) {
-    if (path.empty()) {
+    if (v.empty()) {
         return;
     }
-    for (size_t i = 0; i < path.size(); ++i) {
-        cout << path[i];
-        if (i < path.size() - 1) {
+    for (size_t i = 0; i < v.size(); ++i) {
+        cout << v[i];
+        if (i < v.size() - 1) {
             cout << " ";
         } else {
             cout << endl;
         }
     }
-    cout << "Total cost is" << total << endl;
+    cout << "Total cost is " << total << endl;
 }
