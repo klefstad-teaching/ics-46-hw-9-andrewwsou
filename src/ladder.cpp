@@ -1,5 +1,6 @@
 #include "ladder.h"
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 
@@ -74,7 +75,14 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
     return {};
 }
 
-void load_words(set<string> & word_list, const string& file_name);
+void load_words(set<string> & word_list, const string& file_name) {
+    ifstream in(file_name);
+    string word;
+    while (in >> word) {
+        word_list.insert(word);
+    }
+    in.close();
+}
 
 void print_word_ladder(const vector<string>& ladder);
 
